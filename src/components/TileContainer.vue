@@ -11,6 +11,7 @@ const audiobookShelfUrl = env.VITE_AUDIOBOOKSHELF_URL
   <div>
     <div class="flex flex-wrap justify-center gap-2 container mb-10">
       <Tile
+        v-if="jellyfinUrl"
         logo="/jellyfinLogo.png"
         color="bg-[#4E83D1]/40"
         :href="jellyfinUrl"
@@ -53,6 +54,7 @@ const audiobookShelfUrl = env.VITE_AUDIOBOOKSHELF_URL
       />
 
       <Tile
+        v-if="audiobookShelfUrl"
         logo="/audioBookLogo.svg"
         color="bg-[#CD9D49]/30"
         :href="audiobookShelfUrl"
