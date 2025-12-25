@@ -1,10 +1,17 @@
 <script setup>
 import Tile from "./Tile.vue"
+import { useRoute } from "vue-router"
 
 const env = import.meta.env
+const route = useRoute()
+const isLocal = route.query.local === "true"
 
-const jellyfinUrl = env.VITE_JELLYFIN_URL
-const audiobookShelfUrl = env.VITE_AUDIOBOOKSHELF_URL
+const jellyfinUrl = isLocal
+  ? env.VITE_JELLYFIN_URL_LOCAL
+  : env.VITE_JELLYFIN_URL
+const audiobookShelfUrl = isLocal
+  ? env.VITE_AUDIOBOOKSHELF_URL_LOCAL
+  : env.VITE_AUDIOBOOKSHELF_URL
 </script>
 
 <template>
