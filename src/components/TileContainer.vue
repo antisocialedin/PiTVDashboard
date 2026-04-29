@@ -76,6 +76,11 @@ const audiobookShelfUrl = isLocal
         color="bg-[#65459B]/20"
         href="https://www.twitch.tv"
       />
+      <Tile
+        logo="/spotifyLogo.png"
+        color="bg-[#16D860]/20"
+        href="https://open.spotify.com"
+      />
     </div>
   </div>
 </template>
