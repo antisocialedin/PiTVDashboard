@@ -72,6 +72,11 @@ const audiobookShelfUrl = isLocal
         href="https://www.youtube.com"
       />
       <Tile
+        logo="/plutoTVLogo.png"
+        color="bg-[#FFF202]/20"
+        href="https://pluto.tv/it/live-tv?lang=en"
+      />
+      <Tile
         logo="/twitchLogo.png"
         color="bg-[#65459B]/20"
         href="https://www.twitch.tv"
