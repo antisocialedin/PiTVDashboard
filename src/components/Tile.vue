@@ -1,5 +1,10 @@
 <script setup>
-const { logo, color, href } = defineProps(["logo", "color", "href"])
+const { logo, color, href, selected } = defineProps([
+  "logo",
+  "color",
+  "href",
+  "selected"
+])
 </script>
 
 <template>
