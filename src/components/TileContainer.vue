@@ -196,6 +196,12 @@ const handleKeyDown = ev => {
         activateSelectedTile()
       }
       break
+    case "Escape":
+      if (tvMode.value) {
+        tvMode.value = false
+        selectedIndex.value = -1
+      }
+      break
   }
 }
 onMounted(() => {
