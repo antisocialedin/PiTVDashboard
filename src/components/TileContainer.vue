@@ -119,6 +119,15 @@ const getTileCenter = index => {
   }
 }
 
+const scrollToSelectedTile = () => {
+  const el = getTileElement(selectedIndex.value)
+  if (!el) return
+  el.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+    inline: "center"
+  })
+}
 const findNextIndex = direction => {
   const current = getTileCenter(selectedIndex.value)
   if (!current) return selectedIndex.value
@@ -167,6 +176,7 @@ const handleKeyDown = ev => {
     case "ArrowDown":
     case "ArrowLeft":
     case "ArrowRight":
+      ev.preventDefault()
       if (!tvMode.value) {
         tvMode.value = true
         selectedIndex.value = 0
@@ -175,28 +185,34 @@ const handleKeyDown = ev => {
           case "ArrowUp":
             index = findNextIndex("up")
             selectedIndex.value = index
+            scrollToSelectedTile()
             break
           case "ArrowDown":
             index = findNextIndex("down")
             selectedIndex.value = index
+            scrollToSelectedTile()
             break
           case "ArrowLeft":
             index = findNextIndex("left")
             selectedIndex.value = index
+            scrollToSelectedTile()
             break
           case "ArrowRight":
             index = findNextIndex("right")
             selectedIndex.value = index
+            scrollToSelectedTile()
             break
         }
       }
       break
     case "Enter":
       if (tvMode.value) {
+        ev.preventDefault()
         activateSelectedTile()
       }
       break
     case "Escape":
+      ev.preventDefault()
       if (tvMode.value) {
         tvMode.value = false
         selectedIndex.value = -1
