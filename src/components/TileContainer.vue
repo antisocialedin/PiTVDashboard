@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted, onUnmounted, ref } from "vue"
 import Tile from "./Tile.vue"
 import { useRoute } from "vue-router"
 
@@ -13,15 +14,6 @@ const audiobookShelfUrl = isLocal
   ? env.VITE_AUDIOBOOKSHELF_URL_LOCAL
   : env.VITE_AUDIOBOOKSHELF_URL
 
-let jellyfinTile = false
-if (jellyfinUrl) {
-  jellyfinTile = {
-    id: "jellyfin",
-    href: jellyfinUrl,
-    logo: "/jellyfinLogo.png",
-    color: "bg-[#4E83D1]/40"
-  }
-}
 const tiles = [
   {
     id: "netflix",
@@ -103,46 +95,114 @@ if (audiobookShelfUrl) {
   }
   tiles.push(audiobookShelfTile)
 }
+const tileRefs = ref([])
 
-let tvMode = false
-window.addEventListener("keydown", event => {
-  switch (event.key) {
+const tvMode = ref(false)
+const selectedIndex = ref(-1)
+const getTileElement = index => {
+  const tile = tileRefs.value[index]
+  if (!tile) return null
+  return tile.rootEl
+}
+const getTileCenter = index => {
+  const el = getTileElement(index)
+  if (!el) return null
+  const rect = el.getBoundingClientRect()
+  return {
+    index,
+    x: rect.left + rect.width / 2,
+    y: rect.top + rect.height / 2,
+    left: rect.left,
+    right: rect.right,
+    top: rect.top,
+    bottom: rect.bottom
+  }
+}
+
+const findNextIndex = direction => {
+  const current = getTileCenter(selectedIndex.value)
+  if (!current) return selectedIndex.value
+
+  const candidates = tiles
+    .map((_, index) => getTileCenter(index))
+    .filter(Boolean)
+    .filter(tile => tile.index !== current.index)
+    .filter(tile => {
+      if (direction === "right") return tile.x > current.x
+      if (direction === "left") return tile.x < current.x
+      if (direction === "down") return tile.y > current.y
+      if (direction === "up") return tile.y < current.y
+    })
+
+  const score = (candidate, current, direction) => {
+    const horizontalDistance = Math.abs(candidate.x - current.x)
+    const verticalDistance = Math.abs(candidate.y - current.y)
+
+    if (direction === "left" || direction === "right") {
+      return horizontalDistance + verticalDistance * 2
+    }
+    if (direction === "up" || direction === "down") {
+      return verticalDistance + horizontalDistance * 2
+    }
+    return Infinity
+  }
+
+  if (!candidates.length) return selectedIndex.value
+  candidates.sort(
+    (a, b) => score(a, current, direction) - score(b, current, direction)
+  )
+  return candidates[0].index
+}
+
+const activateSelectedTile = () => {
+  const el = getTileElement(selectedIndex.value)
+  if (!el) return
+  el.click()
+}
+
+const handleKeyDown = ev => {
+  let index = selectedIndex.value
+  switch (ev.key) {
     case "ArrowUp":
-      if (!tvMode) {
-        tvMode = true
-      } else {
-        // Select the upper Tile
-      }
-      break
     case "ArrowDown":
-      if (!tvMode) {
-        tvMode = true
-      } else {
-        // Select the Tile below
-      }
-      break
     case "ArrowLeft":
-      if (!tvMode) {
-        tvMode = true
-      } else {
-        // Select the Tile on the left
-      }
-      break
     case "ArrowRight":
-      if (!tvMode) {
-        tvMode = true
+      if (!tvMode.value) {
+        tvMode.value = true
+        selectedIndex.value = 0
       } else {
-        // Select the Tile on the right
+        switch (ev.key) {
+          case "ArrowUp":
+            index = findNextIndex("up")
+            selectedIndex.value = index
+            break
+          case "ArrowDown":
+            index = findNextIndex("down")
+            selectedIndex.value = index
+            break
+          case "ArrowLeft":
+            index = findNextIndex("left")
+            selectedIndex.value = index
+            break
+          case "ArrowRight":
+            index = findNextIndex("right")
+            selectedIndex.value = index
+            break
+        }
       }
       break
     case "Enter":
-      if (tvMode) {
-        // TODO - Click on the current selected Tile
+      if (tvMode.value) {
+        activateSelectedTile()
       }
       break
-    default:
-      break
   }
+}
+onMounted(() => {
+  window.addEventListener("keydown", handleKeyDown)
+})
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeyDown)
 })
 </script>
 
@@ -150,11 +210,13 @@ window.addEventListener("keydown", event => {
   <div>
     <div class="flex flex-wrap justify-center gap-2 container mb-10">
       <Tile
-        v-for="item in tiles"
-        :href="item.href"
-        :color="item.color"
-        :logo="item.logo"
-        :key="item.id"
+        v-for="(tile, index) in tiles"
+        :href="tile.href"
+        :color="tile.color"
+        :logo="tile.logo"
+        :key="tile.id"
+        :selected="index === selectedIndex"
+        :ref="el => (tileRefs[index] = el)"
       />
     </div>
   </div>
