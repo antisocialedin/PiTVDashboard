@@ -230,7 +230,9 @@ onUnmounted(() => {
 
 <template>
   <div>
-    <div class="flex flex-wrap justify-center gap-2 container mb-10">
+    <div
+      class="grid grid-cols-4 gap-6 w-full max-w-[1500px] px-6 mb-10"
+    >
       <Tile
         v-for="(tile, index) in tiles"
         :href="tile.href"
