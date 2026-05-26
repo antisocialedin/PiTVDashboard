@@ -230,9 +230,7 @@ onUnmounted(() => {
 
 <template>
   <div>
-    <div
-      class="grid grid-cols-4 gap-6 w-full max-w-[1500px] px-6 mb-10"
-    >
+    <div class="grid grid-cols-4 place-items-center gap-6 max-w-[1400px] mx-auto px-6 mb-10">
       <Tile
         v-for="(tile, index) in tiles"
         :href="tile.href"
