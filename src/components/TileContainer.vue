@@ -229,17 +229,24 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div>
-    <div class="grid grid-cols-4 place-items-center gap-6 max-w-[1400px] mx-auto px-6 mb-10">
-      <Tile
-        v-for="(tile, index) in tiles"
-        :href="tile.href"
-        :color="tile.color"
-        :logo="tile.logo"
-        :key="tile.id"
-        :selected="index === selectedIndex"
-        :ref="el => (tileRefs[index] = el)"
-      />
-    </div>
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(4, 280px);
+      gap: 24px;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 40px;
+    "
+  >
+    <Tile
+      v-for="(tile, index) in tiles"
+      :href="tile.href"
+      :color="tile.color"
+      :logo="tile.logo"
+      :key="tile.id"
+      :selected="index === selectedIndex"
+      :ref="el => (tileRefs[index] = el)"
+    />
   </div>
 </template>

@@ -15,19 +15,36 @@ defineExpose({
 </script>
 
 <template>
-  <a ref="rootEl" :href="href" :class="selected ? 'z-20' : 'z-10'">
+  <a
+    ref="rootEl"
+    :href="href"
+    :style="{
+      textDecoration: 'none'
+    }"
+  >
     <div
-      :class="[
-        color,
-        selected
-          ? 'scale-[1.04] ring-4 ring-white shadow-xl z-20'
-          : 'scale-100'
-      ]"
-      class="w-[300px] h-[170px] rounded-2xl backdrop-blur-2xl border border-white/20 hover:scale-[1.04] transition-all shadow-sm p-5 flex justify-center items-center overflow-hidden"
+      :style="{
+        width: '280px',
+        height: '160px',
+        borderRadius: '24px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '20px',
+        overflow: 'hidden',
+        backdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255,255,255,0.2)',
+        transition: '0.2s',
+        background: 'rgba(255,255,255,0.08)'
+      }"
     >
       <img
         :src="logo"
-        class="max-w-[80%] max-h-[80%] object-contain"
+        :style="{
+          maxWidth: '80%',
+          maxHeight: '80%',
+          objectFit: 'contain'
+        }"
       />
     </div>
   </a>
