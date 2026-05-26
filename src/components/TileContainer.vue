@@ -53,7 +53,7 @@ const tiles = [
   },
   {
     id: "youtube",
-    href: "https://www.youtube.com",
+    href: "https://www.youtube.com/tv#/",
     logo: "/youtubeLogo.png",
     color: "bg-[#E32C27]/30"
   },
