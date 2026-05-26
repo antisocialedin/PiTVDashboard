@@ -4,14 +4,20 @@ import Hero from "../components/Hero.vue"
 </script>
 
 <template>
-  <div class="flex flex-col gap-10 justify-center items-center pt-5 text-white">
-    <div class="flex justify-center">
-      <Hero />
-    </div>
-    <div class="flex justify-center items-center">
-      <TileContainer />
-    </div>
+  <div
+    style="
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      padding: 20px;
+      box-sizing: border-box;
+    "
+  >
+    <Hero />
+    <TileContainer />
   </div>
 </template>
-
-<style scoped></style>
