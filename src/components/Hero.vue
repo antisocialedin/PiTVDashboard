@@ -10,14 +10,16 @@
       border: 1px solid rgba(255,255,255,0.2);
       backdrop-filter: blur(20px);
       gap: 16px;
+      width: fit-content;
     "
   >
     <img
       src="/raspLogo.png"
       style="
         height: 70px;
-        width: auto;
+        width: 70px;
         object-fit: contain;
+        display: block;
       "
     />
 
